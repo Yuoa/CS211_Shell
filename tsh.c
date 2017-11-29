@@ -170,7 +170,6 @@ void eval(char *cmdline)
     char *arguments[MAXARGS];
     char isBg = 0;
     pid_t pid;
-    struct job_t *jid;
     
     //Save buffer cmdline for next input
     strcpy(savedCMD, cmdline);
@@ -205,23 +204,20 @@ void eval(char *cmdline)
 
 	    if(!isBg) {
 	    
-		addjob(jobs, pid, FG, cmdline);
-		waitfg(pid);
-		jid = getjobpid(jobs, pid);
-		
-		if(jid != NULL && jid->state != ST) {
-		    kill(pid, SIGKILL);
-		    deletejob(jobs, pid);
-		}
+		if(addjob(jobs, pid, FG, cmdline))
+		    waitfg(pid);
+		else
+		    kill(-pid, SIGKILL);
 
 		//if(waitpid(pid, &status, 0) < 0)
 		//    unix_error("waitfg: waitpid error");
 	    
 	    } else {
-		addjob(jobs, pid, BG, cmdline);
-		jid = getjobpid(jobs, pid);
-		printf("[%d] (%d) %s", jid->jid, jid->pid, jid->cmdline);
-		
+
+		if(addjob(jobs, pid, BG, cmdline))
+		    printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
+		else
+		    kill(-pid, SIGKILL);
 
 	    }
 	
