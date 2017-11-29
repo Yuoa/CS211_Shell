@@ -161,7 +161,7 @@ int main(int argc, char **argv)
  * the foreground, wait for it to terminate and then return.  Note:
  * each child process must have a unique process group ID so that our
  * background children don't receive SIGINT (SIGTSTP) from the kernel
- * when we type ctrl-c (ctrl-z) at the keyboard.  
+ * when we type ctrlev-c (ctrl-z) at the keyboard.  
 */
 void eval(char *cmdline) 
 {
@@ -170,6 +170,7 @@ void eval(char *cmdline)
     char *arguments[MAXARGS];
     char isBg = 0;
     pid_t pid;
+    struct job_t *jid;
     
     //Save buffer cmdline for next input
     strcpy(savedCMD, cmdline);
@@ -204,14 +205,22 @@ void eval(char *cmdline)
 
 	    if(!isBg) {
 	    
-		int status;
+		addjob(jobs, pid, FG, cmdline);
+		waitfg(pid);
+		jid = getjobpid(jobs, pid);
+		
+		if(jid != NULL && jid->state != ST) {
+		    kill(pid, SIGKILL);
+		    deletejob(jobs, pid);
+		}
 
-		if(waitpid(pid, &status, 0) < 0)
-		    unix_error("waitfg: waitpid error");
+		//if(waitpid(pid, &status, 0) < 0)
+		//    unix_error("waitfg: waitpid error");
 	    
 	    } else {
-	    
-		printf("%d %s", pid, cmdline);
+		addjob(jobs, pid, BG, cmdline);
+		jid = getjobpid(jobs, pid);
+		printf("[%d] (%d) %s", jid->jid, jid->pid, jid->cmdline);
 		
 
 	    }
