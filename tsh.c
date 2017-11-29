@@ -166,31 +166,28 @@ int main(int argc, char **argv)
 void eval(char *cmdline) 
 {
 
-    char savedCMD[MAXLINE];
     char *arguments[MAXARGS];
-    char isBg = 0;
+    int isBg;
     pid_t pid;
-    
-    //Save buffer cmdline for next input
-    strcpy(savedCMD, cmdline);
 
     //Parse arguments from cmdline and save argument lists to arguments variable.
-    isBg = (char) parseline(savedCMD, arguments);
+    isBg = parseline(cmdline, arguments);
 
     //Return if NULL
     if(arguments[0] == NULL)
+	return;
+    else if(isBg == -1)
 	return;
     else {
     
 	//Evaluate Command only if it is not builtin-command
 	if(builtin_cmd(arguments) == 0) {
-	
-	    //Fork process for new child process
-	    pid = fork();
 
-	    if(pid == 0) {
+	    if((pid = fork()) == 0) {
 	    
-		char execResult = (char) execve(arguments[0], arguments, environ);
+		setpgid(0, 0);
+
+		int execResult = execve(arguments[0], arguments, environ);
 
 		if(execResult < 0) {
 		
@@ -204,20 +201,16 @@ void eval(char *cmdline)
 
 	    if(!isBg) {
 	    
-		if(addjob(jobs, pid, FG, cmdline))
-		    waitfg(pid);
-		else
-		    kill(-pid, SIGKILL);
+		addjob(jobs, pid, FG, cmdline);
+		waitfg(pid);
 
 		//if(waitpid(pid, &status, 0) < 0)
 		//    unix_error("waitfg: waitpid error");
 	    
 	    } else {
 
-		if(addjob(jobs, pid, BG, cmdline))
-		    printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
-		else
-		    kill(-pid, SIGKILL);
+		addjob(jobs, pid, BG, cmdline);
+		printf("[%d] (%d) %s\n", pid2jid(pid), pid, cmdline);
 
 	    }
 	
@@ -324,7 +317,7 @@ int builtin_cmd(char **argv)
 void do_bgfg(char **argv) 
 {
     struct job_t *job;
-    pid_t pid;
+    pid_t pid = 0;
     int jid;
     
     if (argv[1] == NULL) {
@@ -334,7 +327,7 @@ void do_bgfg(char **argv)
     
     if (isdigit(argv[1][0])) {
        pid = atoi(argv[1]);
-       if ((job=getjobpid(jobs,pid))==0) {
+       if (getjobpid(jobs,pid)==NULL) {
           printf("(%s): No such process\n", argv[1]);
           return;
        }
@@ -345,22 +338,24 @@ void do_bgfg(char **argv)
 	    printf("%s: No such job\n", argv[1]);
 	    return;
 	}
+	else
+	    pid = job->pid;
     }
     else {
 	printf("%s: argument must be a PID or %%jobid\n", argv[0]);
 	return;
     }
     
-    pid = job->pid;
+    //pid = job->pid;
     if (!strcmp(argv[0], "bg")) {
-       kill(-pid, SIGCONT);
-       job->state = BG;
-       printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
+	kill(-pid, SIGCONT);
+	(job = getjobpid(jobs, pid))->state = BG;
+	printf("[%d] (%d) %s\n", job->jid, job->pid, job->cmdline);
     }
     else if (!strcmp(argv[0], "fg")) {
-       kill(-pid, SIGCONT);
-        job->state = FG;
-	waitfg(job->pid);
+	kill(-pid, SIGCONT);
+	(job = getjobpid(jobs, pid))->state = FG;
+	waitfg(pid);
     }   
     return;
 }
@@ -370,9 +365,12 @@ void do_bgfg(char **argv)
  */
 void waitfg(pid_t pid)
 {
+    
     struct job_t *fg = getjobpid(jobs, pid);
-    if(fg == 0) return;
-    while(fg->pid == pid && fg->state == FG) sleep(1);
+    //if(fg == 0) return;
+    while((fg != NULL) && (fg->state == FG)) sleep(1);
+    
+    //while(fgpid(jobs) == pid) {};
     return;
 }
 
@@ -390,18 +388,19 @@ void waitfg(pid_t pid)
 void sigchld_handler(int sig) 
 {
     pid_t pid;
-    int status;
+    int status = -1;
     while((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
-    
-	struct job_t *now = getjobpid(jobs, pid);
+
 	if(WIFEXITED(status))
 	    deletejob(jobs, pid);
-	else if(WIFSTOPPED(status)) {
-	    printf("Job [%d] (%d) stopped by %d\n", now->jid, now->pid, sig);
-	    now->state=ST;
+	
+	if(WIFSTOPPED(status)) {
+	    printf("Job [%d] (%d) stopped by signal %d\n", pid2jid(pid), pid, WSTOPSIG(status));
+	    getjobpid(jobs, pid)->state=ST;
 	}
-	else {
-	    printf("Job [%d] (%d) terminated by %d\n", now->jid, now->pid, sig);
+	
+	if(WIFSIGNALED(status)){
+	    printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid, WTERMSIG(status));
 	    deletejob(jobs, pid);
 	}
     
@@ -417,7 +416,7 @@ void sigchld_handler(int sig)
 void sigint_handler(int sig) 
 {
     pid_t pid = fgpid(jobs);
-    if(pid)
+    if(pid > 0)
 	kill(-pid, SIGINT);
     return;
 }
@@ -430,9 +429,9 @@ void sigint_handler(int sig)
 void sigtstp_handler(int sig) 
 {
     pid_t pid = fgpid(jobs);
-    if(pid) {
-	getjobpid(jobs, pid)->state = ST;
+    if(pid != 0) {
 	kill(-pid, SIGTSTP);
+	//getjobpid(jobs, pid)->state = ST;
     }
     return;
 }

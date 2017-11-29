@@ -17,7 +17,7 @@ all: $(FILES)
 # Handin your work
 ##################
 handin:
-	cp tsh.c $(HANDINDIR)/$(TEAM)-$(VERSION)-tsh.c
+	zip tsh.zip ./tsh ./tsh.c
 
 
 ##################
@@ -96,5 +96,5 @@ rtest16:
 # clean up
 clean:
 	rm -f $(FILES) *.o *~
-
+	rm -f ./test.out
 
