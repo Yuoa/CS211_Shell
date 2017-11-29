@@ -210,7 +210,7 @@ void eval(char *cmdline)
 	    } else {
 
 		addjob(jobs, pid, BG, cmdline);
-		printf("[%d] (%d) %s\n", pid2jid(pid), pid, cmdline);
+		printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
 
 	    }
 	
@@ -350,7 +350,7 @@ void do_bgfg(char **argv)
     if (!strcmp(argv[0], "bg")) {
 	kill(-pid, SIGCONT);
 	(job = getjobpid(jobs, pid))->state = BG;
-	printf("[%d] (%d) %s\n", job->jid, job->pid, job->cmdline);
+	printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
     }
     else if (!strcmp(argv[0], "fg")) {
 	kill(-pid, SIGCONT);
