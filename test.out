@@ -48,14 +48,14 @@ tsh>
 # trace04.txt - Run a background job.
 #
 tsh> tsh> ./myspin 1 &
-tsh> [1] (26050) ./myspin 1 &
+tsh> [1] (26815) ./myspin 1 &
 tsh> 
 -----(Our tsh)-----
 #
 # trace04.txt - Run a background job.
 #
 tsh> tsh> ./myspin 1 &
-tsh> [1] (26054) ./myspin 1 &
+tsh> [1] (26819) ./myspin 1 &
 tsh> 
 ========================================================
 
@@ -66,24 +66,24 @@ tsh>
 # trace05.txt - Process jobs builtin command.
 #
 tsh> tsh> ./myspin 2 &
-tsh> [1] (26058) ./myspin 2 &
+tsh> [1] (26823) ./myspin 2 &
 tsh> tsh> ./myspin 3 &
-tsh> [2] (26060) ./myspin 3 &
+tsh> [2] (26825) ./myspin 3 &
 tsh> tsh> jobs
-tsh> [1] (26058) Running ./myspin 2 &
-[2] (26060) Running ./myspin 3 &
+tsh> [1] (26823) Running ./myspin 2 &
+[2] (26825) Running ./myspin 3 &
 tsh> 
 -----(Our tsh)-----
 #
 # trace05.txt - Process jobs builtin command.
 #
 tsh> tsh> ./myspin 2 &
-tsh> [1] (26065) ./myspin 2 &
+tsh> [1] (26830) ./myspin 2 &
 tsh> tsh> ./myspin 3 &
-tsh> [2] (26067) ./myspin 3 &
+tsh> [2] (26832) ./myspin 3 &
 tsh> tsh> jobs
-tsh> [1] (26065) Running ./myspin 2 &
-[2] (26067) Running ./myspin 3 &
+tsh> [1] (26830) Running ./myspin 2 &
+[2] (26832) Running ./myspin 3 &
 tsh> 
 ========================================================
 
@@ -94,14 +94,14 @@ tsh>
 # trace06.txt - Forward SIGINT to foreground job.
 #
 tsh> tsh> ./myspin 4
-tsh> Job [1] (26072) terminated by signal 2
+tsh> Job [1] (26837) terminated by signal 2
 tsh> 
 -----(Our tsh)-----
 #
 # trace06.txt - Forward SIGINT to foreground job.
 #
 tsh> tsh> ./myspin 4
-tsh> tsh: pid 26076 killed(2).
+tsh> Job [1] (26841) terminated by signal 2
 tsh> 
 ========================================================
 
@@ -112,20 +112,20 @@ tsh>
 # trace07.txt - Forward SIGINT only to foreground job.
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26080) ./myspin 4 &
+tsh> [1] (26845) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> Job [2] (26082) terminated by signal 2
+tsh> Job [2] (26847) terminated by signal 2
 tsh> tsh> jobs
-tsh> [1] (26080) Running ./myspin 4 &
+tsh> [1] (26845) Running ./myspin 4 &
 tsh> 
 -----(Our tsh)-----
 #
 # trace07.txt - Forward SIGINT only to foreground job.
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26087) ./myspin 4 &
+tsh> [1] (26852) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> tsh: pid 26089 killed(2).
+tsh> Job [2] (26854) terminated by signal 2
 tsh> tsh> jobs
 tsh> tsh> 
 ========================================================
@@ -137,24 +137,24 @@ tsh> tsh>
 # trace08.txt - Forward SIGTSTP only to foreground job.
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26094) ./myspin 4 &
+tsh> [1] (26859) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> Job [2] (26096) stopped by signal 20
+tsh> Job [2] (26861) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26094) Running ./myspin 4 &
-[2] (26096) Stopped ./myspin 5 
+tsh> [1] (26859) Running ./myspin 4 &
+[2] (26861) Stopped ./myspin 5 
 tsh> 
 -----(Our tsh)-----
 #
 # trace08.txt - Forward SIGTSTP only to foreground job.
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26101) ./myspin 4 &
+tsh> [1] (26866) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> tsh: pid 26103 killed(20).
+tsh> Job [2] (26868) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26101) Running ./myspin 4 &
-[2] (26103) Stopped ./myspin 5 
+tsh> [1] (26866) Running ./myspin 4 &
+[2] (26868) Stopped ./myspin 5 
 tsh> 
 ========================================================
 
@@ -165,34 +165,34 @@ tsh>
 # trace09.txt - Process bg builtin command
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26108) ./myspin 4 &
+tsh> [1] (26873) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> Job [2] (26110) stopped by signal 20
+tsh> Job [2] (26875) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26108) Running ./myspin 4 &
-[2] (26110) Stopped ./myspin 5 
+tsh> [1] (26873) Running ./myspin 4 &
+[2] (26875) Stopped ./myspin 5 
 tsh> tsh> bg %2
-tsh> [2] (26110) ./myspin 5 
+tsh> [2] (26875) ./myspin 5 
 tsh> tsh> jobs
-tsh> [1] (26108) Running ./myspin 4 &
-[2] (26110) Running ./myspin 5 
+tsh> [1] (26873) Running ./myspin 4 &
+[2] (26875) Running ./myspin 5 
 tsh> 
 -----(Our tsh)-----
 #
 # trace09.txt - Process bg builtin command
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26117) ./myspin 4 &
+tsh> [1] (26882) ./myspin 4 &
 tsh> tsh> ./myspin 5
-tsh> tsh: pid 26119 killed(20).
+tsh> Job [2] (26884) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26117) Running ./myspin 4 &
-[2] (26119) Stopped ./myspin 5 
+tsh> [1] (26882) Running ./myspin 4 &
+[2] (26884) Stopped ./myspin 5 
 tsh> tsh> bg %2
-tsh> [2] (26119) ./myspin 5 
+tsh> [2] (26884) ./myspin 5 
 tsh> tsh> jobs
-tsh> [1] (26117) Running ./myspin 4 &
-[2] (26119) Running ./myspin 5 
+tsh> [1] (26882) Running ./myspin 4 &
+[2] (26884) Running ./myspin 5 
 tsh> 
 ========================================================
 
@@ -203,11 +203,11 @@ tsh>
 # trace10.txt - Process fg builtin command. 
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26126) ./myspin 4 &
+tsh> [1] (26891) ./myspin 4 &
 tsh> tsh> fg %1
-tsh> Job [1] (26126) stopped by signal 20
+tsh> Job [1] (26891) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26126) Stopped ./myspin 4 &
+tsh> [1] (26891) Stopped ./myspin 4 &
 tsh> tsh> fg %1
 tsh> tsh> tsh> jobs
 tsh> tsh> 
@@ -216,11 +216,11 @@ tsh> tsh>
 # trace10.txt - Process fg builtin command. 
 #
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26134) ./myspin 4 &
+tsh> [1] (26899) ./myspin 4 &
 tsh> tsh> fg %1
-tsh> tsh: pid 26134 killed(20).
+tsh> Job [1] (26899) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26134) Stopped ./myspin 4 &
+tsh> [1] (26899) Stopped ./myspin 4 &
 tsh> tsh> fg %1
 tsh> tsh> tsh> jobs
 tsh> tsh> 
@@ -233,30 +233,32 @@ tsh> tsh>
 # trace11.txt - Forward SIGINT to every process in foreground process group
 #
 tsh> tsh> ./mysplit 4
-tsh> Job [1] (26142) terminated by signal 2
+tsh> Job [1] (26907) terminated by signal 2
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26139 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace11.txt
-26140 pts/1    S+     0:00 ./tshref
-26145 pts/1    R      0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26904 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace11.txt
+26905 pts/0    S+     0:00 ./tshref
+26910 pts/0    R      0:00 /bin/ps a
 tsh> 
 -----(Our tsh)-----
 #
 # trace11.txt - Forward SIGINT to every process in foreground process group
 #
 tsh> tsh> ./mysplit 4
-tsh> tsh: pid 26149 killed(2).
+tsh> Job [1] (26914) terminated by signal 2
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26146 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace11.txt
-26147 pts/1    S+     0:00 ./tsh
-26152 pts/1    R+     0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26911 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace11.txt
+26912 pts/0    S+     0:00 ./tsh
+26917 pts/0    R+     0:00 /bin/ps a
 tsh> 
 ========================================================
 
@@ -267,38 +269,40 @@ tsh>
 # trace12.txt - Forward SIGTSTP to every process in foreground process group
 #
 tsh> tsh> ./mysplit 4
-tsh> Job [1] (26156) stopped by signal 20
+tsh> Job [1] (26921) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26156) Stopped ./mysplit 4 
+tsh> [1] (26921) Stopped ./mysplit 4 
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26153 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace12.txt
-26154 pts/1    S+     0:00 ./tshref
-26156 pts/1    T      0:00 ./mysplit 4
-26157 pts/1    T      0:00 ./mysplit 4
-26160 pts/1    R      0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26918 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace12.txt
+26919 pts/0    S+     0:00 ./tshref
+26921 pts/0    T      0:00 ./mysplit 4
+26922 pts/0    T      0:00 ./mysplit 4
+26925 pts/0    R      0:00 /bin/ps a
 tsh> 
 -----(Our tsh)-----
 #
 # trace12.txt - Forward SIGTSTP to every process in foreground process group
 #
 tsh> tsh> ./mysplit 4
-tsh> tsh: pid 26164 killed(20).
+tsh> Job [1] (26929) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26164) Stopped ./mysplit 4 
+tsh> [1] (26929) Stopped ./mysplit 4 
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26161 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace12.txt
-26162 pts/1    S+     0:00 ./tsh
-26164 pts/1    S+     0:00 ./mysplit 4
-26165 pts/1    S+     0:00 ./mysplit 4
-26168 pts/1    R+     0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26926 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace12.txt
+26927 pts/0    S+     0:00 ./tsh
+26929 pts/0    S+     0:00 ./mysplit 4
+26930 pts/0    S+     0:00 ./mysplit 4
+26933 pts/0    R+     0:00 /bin/ps a
 tsh> 
 ========================================================
 
@@ -309,56 +313,60 @@ tsh>
 # trace13.txt - Restart every stopped process in process group
 #
 tsh> tsh> ./mysplit 4
-tsh> Job [1] (26172) stopped by signal 20
+tsh> Job [1] (26937) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26172) Stopped ./mysplit 4 
+tsh> [1] (26937) Stopped ./mysplit 4 
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26169 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace13.txt
-26170 pts/1    S+     0:00 ./tshref
-26172 pts/1    T      0:00 ./mysplit 4
-26173 pts/1    T      0:00 ./mysplit 4
-26176 pts/1    R      0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26934 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace13.txt
+26935 pts/0    S+     0:00 ./tshref
+26937 pts/0    T      0:00 ./mysplit 4
+26938 pts/0    T      0:00 ./mysplit 4
+26941 pts/0    R      0:00 /bin/ps a
 tsh> tsh> fg %1
 tsh> tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26169 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace13.txt
-26170 pts/1    S+     0:00 ./tshref
-26179 pts/1    R      0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26934 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tshref -t trace13.txt
+26935 pts/0    S+     0:00 ./tshref
+26944 pts/0    R      0:00 /bin/ps a
 tsh> 
 -----(Our tsh)-----
 #
 # trace13.txt - Restart every stopped process in process group
 #
 tsh> tsh> ./mysplit 4
-tsh> tsh: pid 26183 killed(20).
+tsh> Job [1] (26948) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26183) Stopped ./mysplit 4 
+tsh> [1] (26948) Stopped ./mysplit 4 
 tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26180 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace13.txt
-26181 pts/1    S+     0:00 ./tsh
-26183 pts/1    S+     0:00 ./mysplit 4
-26184 pts/1    S+     0:00 ./mysplit 4
-26187 pts/1    R+     0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26945 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace13.txt
+26946 pts/0    S+     0:00 ./tsh
+26948 pts/0    S+     0:00 ./mysplit 4
+26949 pts/0    S+     0:00 ./mysplit 4
+26952 pts/0    R+     0:00 /bin/ps a
 tsh> tsh> fg %1
 tsh> tsh> tsh> /bin/ps a
 tsh>   PID TTY      STAT   TIME COMMAND
  2826 tty1     Ss+    0:00 /sbin/agetty -o -p -- \u --noclear tty1 linux
-21929 pts/1    Ss     0:05 -fish
-26032 pts/1    S+     0:00 /usr/bin/perl ./tester.pl
-26180 pts/1    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace13.txt
-26181 pts/1    S+     0:00 ./tsh
-26190 pts/1    R+     0:00 /bin/ps a
+21929 pts/1    Ss+    0:05 -fish
+26419 pts/0    Ss     0:00 -fish
+26797 pts/0    S+     0:00 /usr/bin/perl ./tester.pl
+26945 pts/0    S+     0:00 /usr/bin/perl /home/wayle/Repositories/CSAPP_Shell/sdriver.pl -s ./tsh -t trace13.txt
+26946 pts/0    S+     0:00 ./tsh
+26955 pts/0    R+     0:00 /bin/ps a
 tsh> 
 ========================================================
 
@@ -371,7 +379,7 @@ tsh>
 tsh> tsh> ./bogus
 tsh> ./bogus: Command not found
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26196) ./myspin 4 &
+tsh> [1] (26961) ./myspin 4 &
 tsh> tsh> fg
 tsh> fg command requires PID or %jobid argument
 tsh> tsh> bg
@@ -387,13 +395,13 @@ tsh> (9999999): No such process
 tsh> tsh> fg %2
 tsh> %2: No such job
 tsh> tsh> fg %1
-tsh> Job [1] (26196) stopped by signal 20
+tsh> Job [1] (26961) stopped by signal 20
 tsh> tsh> bg %2
 tsh> %2: No such job
 tsh> tsh> bg %1
-tsh> [1] (26196) ./myspin 4 &
+tsh> [1] (26961) ./myspin 4 &
 tsh> tsh> jobs
-tsh> [1] (26196) Running ./myspin 4 &
+tsh> [1] (26961) Running ./myspin 4 &
 tsh> 
 -----(Our tsh)-----
 #
@@ -402,7 +410,7 @@ tsh>
 tsh> tsh> ./bogus
 tsh> ./bogus: Command not found.
 tsh> tsh> ./myspin 4 &
-tsh> [1] (26213) ./myspin 4 &
+tsh> [1] (26978) ./myspin 4 &
 tsh> tsh> fg
 tsh> Requires PID or %jobid argument after fg
 tsh> tsh> bg
@@ -418,13 +426,13 @@ tsh> (9999999): No such process
 tsh> tsh> fg %2
 tsh> (%2): No such job
 tsh> tsh> fg %1
-tsh> tsh: pid 26213 killed(20).
+tsh> Job [1] (26978) stopped by signal 20
 tsh> tsh> bg %2
 tsh> (%2): No such job
 tsh> tsh> bg %1
-tsh> [1] (26213) ./myspin 4 &
+tsh> [1] (26978) ./myspin 4 &
 tsh> tsh> jobs
-tsh> [1] (26213) Running ./myspin 4 &
+tsh> [1] (26978) Running ./myspin 4 &
 tsh> 
 ========================================================
 
@@ -437,26 +445,26 @@ tsh>
 tsh> tsh> ./bogus
 tsh> ./bogus: Command not found
 tsh> tsh> ./myspin 10
-tsh> Job [1] (26230) terminated by signal 2
+tsh> Job [1] (26995) terminated by signal 2
 tsh> tsh> ./myspin 3 &
-tsh> [1] (26232) ./myspin 3 &
+tsh> [1] (26997) ./myspin 3 &
 tsh> tsh> ./myspin 4 &
-tsh> [2] (26234) ./myspin 4 &
+tsh> [2] (26999) ./myspin 4 &
 tsh> tsh> jobs
-tsh> [1] (26232) Running ./myspin 3 &
-[2] (26234) Running ./myspin 4 &
+tsh> [1] (26997) Running ./myspin 3 &
+[2] (26999) Running ./myspin 4 &
 tsh> tsh> fg %1
-tsh> Job [1] (26232) stopped by signal 20
+tsh> Job [1] (26997) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26232) Stopped ./myspin 3 &
-[2] (26234) Running ./myspin 4 &
+tsh> [1] (26997) Stopped ./myspin 3 &
+[2] (26999) Running ./myspin 4 &
 tsh> tsh> bg %3
 tsh> %3: No such job
 tsh> tsh> bg %1
-tsh> [1] (26232) ./myspin 3 &
+tsh> [1] (26997) ./myspin 3 &
 tsh> tsh> jobs
-tsh> [1] (26232) Running ./myspin 3 &
-[2] (26234) Running ./myspin 4 &
+tsh> [1] (26997) Running ./myspin 3 &
+[2] (26999) Running ./myspin 4 &
 tsh> tsh> fg %1
 tsh> tsh> tsh> quit
 tsh> 
@@ -467,16 +475,16 @@ tsh>
 tsh> tsh> ./bogus
 tsh> ./bogus: Command not found.
 tsh> tsh> ./myspin 10
-tsh> tsh: pid 26248 killed(2).
-tsh: pid 26248 killed(20).
+tsh> Job [1] (27013) terminated by signal 2
+Job [1] (27013) stopped by signal 20
 tsh> tsh> ./myspin 3 &
-tsh> [2] (26250) ./myspin 3 &
+tsh> [2] (27015) ./myspin 3 &
 tsh> tsh> ./myspin 4 &
-tsh> [3] (26252) ./myspin 4 &
+tsh> [3] (27017) ./myspin 4 &
 tsh> tsh> jobs
-tsh> [1] (26248) Stopped ./myspin 10
-[2] (26250) Running ./myspin 3 &
-[3] (26252) Running ./myspin 4 &
+tsh> [1] (27013) Stopped ./myspin 10
+[2] (27015) Running ./myspin 3 &
+[3] (27017) Running ./myspin 4 &
 tsh> tsh> fg %1
 tsh> tsh> tsh> jobs
 tsh> tsh> tsh> bg %3
@@ -498,11 +506,11 @@ tsh>
 #     signals that come from other processes instead of the terminal.
 #
 tsh> tsh> ./mystop 2
-tsh> Job [1] (26264) stopped by signal 20
+tsh> Job [1] (27029) stopped by signal 20
 tsh> tsh> jobs
-tsh> [1] (26264) Stopped ./mystop 2
+tsh> [1] (27029) Stopped ./mystop 2
 tsh> tsh> ./myint 2
-tsh> Job [2] (26267) terminated by signal 2
+tsh> Job [2] (27032) terminated by signal 2
 tsh> 
 -----(Our tsh)-----
 #
@@ -512,7 +520,7 @@ tsh>
 tsh> tsh> ./mystop 2
 tsh> kill (tstp) errortsh> tsh> jobs
 tsh> tsh> tsh> ./myint 2
-tsh> tsh: job [1] (26274) terminated by SIGINT.
+tsh> tsh: job [1] (27039) terminated by SIGINT.
 tsh> 
 ========================================================
 

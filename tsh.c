@@ -421,9 +421,10 @@ void sigchld_handler(int sig)
 void sigint_handler(int sig) 
 {
     pid_t pid = fgpid(jobs);
+    struct job_t *now = getjobpid(jobs, pid);
     if(pid) {
 	kill(-pid, SIGINT);
-	printf("tsh: pid %d killed(%d).\n", pid, sig);
+	printf("Job [%d] (%d) terminated by signal %d\n", now->jid, now->pid, sig);
     }
     return;
 }
@@ -437,9 +438,10 @@ void sigtstp_handler(int sig)
 {
     pid_t pid = fgpid(jobs);
     if(pid) {
-	getjobpid(jobs, pid)->state=ST;
+	struct job_t *now = getjobpid(jobs, pid);
+	now->state = ST;
 	kill(-pid, SIGTSTP);
-	printf("tsh: pid %d killed(%d).\n", pid, sig);
+	printf("Job [%d] (%d) stopped by signal %d\n", now->jid, now->pid, sig);
     }
     return;
 }
