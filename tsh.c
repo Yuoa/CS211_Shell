@@ -288,8 +288,6 @@ int parseline(const char *cmdline, char **argv)
 int builtin_cmd(char **argv) 
 {
 
-    int t;
-
     if (!strcmp(argv[0], "quit")) {
     
 	//Do quit
@@ -303,21 +301,7 @@ int builtin_cmd(char **argv)
     } else if (!strcmp(argv[0], "jobs")) {
     
 	//Do jobs
-	
-	static const char** stateString = {"Undefined", "Foreground", "Background", "Stopped   "};
-
-	printf("Job ID\t\tPID\t\tState\t\tCommand Line\n");
-
-	t = 0;
-
-	while (jobs[t].pid != 0) {
-	
-	    printf("%d\t\t", jobs[t].jid);
-	    printf("%d\t\t", jobs[t].pid);
-	    printf("%s\t", stateString[jobs[t].state]);
-	    printf("%s\n", jobs[t++].cmdline);
-	
-	}
+    	listjobs(jobs);
 
     } else {
     
