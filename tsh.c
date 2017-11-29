@@ -332,7 +332,7 @@ void do_bgfg(char **argv)
     int jid;
     
     if (argv[1] == NULL) {
-       printf("Requires PID or %%jobid argument after %s\n", argv[0]);
+       printf("%s command requires PID or %%jobid argument.\n", argv[0]);
        return;
     }
     
@@ -346,12 +346,12 @@ void do_bgfg(char **argv)
     else if (argv[1][0] == '%') {
 	jid = atoi(&argv[1][1]);
 	if ((job=getjobjid(jobs,jid))==0) {
-	    printf("(%s): No such job\n", argv[1]);
+	    printf("%s: No such job\n", argv[1]);
 	    return;
 	}
     }
     else {
-	printf("Requires PID or %%jobid argument after %s\n", argv[0]);
+	printf("%s: argument must be a PID or %%jobid\n", argv[0]);
 	return;
     }
     
@@ -401,11 +401,11 @@ void sigchld_handler(int sig)
 	if(WIFEXITED(status))
 	    deletejob(jobs, pid);
 	else if(WIFSTOPPED(status)) {
-	    printf("tsh: job [%d] (%d) stopped by SIGTSTP.\n", now->jid, now->pid);
+	    printf("Job [%d] (%d) stopped by %d\n", now->jid, now->pid, sig);
 	    now->state=ST;
 	}
 	else {
-	    printf("tsh: job [%d] (%d) terminated by SIGINT.\n", now->jid, now->pid);
+	    printf("Job [%d] (%d) terminated by %d\n", now->jid, now->pid, sig);
 	    deletejob(jobs, pid);
 	}
     
@@ -421,11 +421,8 @@ void sigchld_handler(int sig)
 void sigint_handler(int sig) 
 {
     pid_t pid = fgpid(jobs);
-    struct job_t *now = getjobpid(jobs, pid);
-    if(pid) {
+    if(pid)
 	kill(-pid, SIGINT);
-	printf("Job [%d] (%d) terminated by signal %d\n", now->jid, now->pid, sig);
-    }
     return;
 }
 
@@ -438,10 +435,8 @@ void sigtstp_handler(int sig)
 {
     pid_t pid = fgpid(jobs);
     if(pid) {
-	struct job_t *now = getjobpid(jobs, pid);
-	now->state = ST;
+	getjobpid(jobs, pid)->state = ST;
 	kill(-pid, SIGTSTP);
-	printf("Job [%d] (%d) stopped by signal %d\n", now->jid, now->pid, sig);
     }
     return;
 }

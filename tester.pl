@@ -9,6 +9,8 @@ use Cwd;
 my $basicCommandRef = getcwd."/sdriver.pl -s ./tshref -t trace";
 my $basicCommand = getcwd."/sdriver.pl -s ./tsh -t trace";
 
+system("/usr/bin/rm ".getcwd."/test.out");
+
 for(my $i = 1; $i < 17; $i++) {
 
 	print "[TRACE TEST - ".$i."]\n";
