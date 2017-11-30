@@ -1,7 +1,10 @@
 /* 
  * tsh - A tiny shell program with job control
  * 
- * <Put your name and login ID here>
+ * Jio Gim (20160087/CITE)
+ * Seungjae Yoo (20170184/CITE)
+ * Jaemin Shin (20160585/CITE)
+ *
  */
 #include <stdio.h>
 #include <stdlib.h>
