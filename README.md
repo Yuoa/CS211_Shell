@@ -3,7 +3,7 @@
 This is assignment repository for POSTECH CSED211 on 2017 Fall Semester.  
 Also known as CS:APP Shell Lab.
 
-### File Description
+## File Description
 
 - **Makefile**: Compiles your shell program and runs the tests
 - **README**: This file
