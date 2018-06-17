@@ -1,6 +1,6 @@
 # Shelllab (TSH)
 
-This is assignment repository for POSTECH CSED211 on 2017 Fall Semester.  
+This is assignment repository for POSTECH CSED211 on 2017 fall Semester.  
 Also known as CS:APP Shell Lab.
 
 ## File Description
